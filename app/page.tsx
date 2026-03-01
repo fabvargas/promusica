@@ -1,7 +1,13 @@
+import Button from "@/frontend/ui/Button";
+import {  registerProfessorAction } from "./action/registerProfessorAction";
 
 
-export default function Home() {
+export default async function Home() {
+ 
+
   return (
-    <div></div>
+    <div>
+   <Button >Registrar Profesor</Button>
+    </div>
   );
 }

@@ -2,6 +2,7 @@ import { ScheduleError } from "@/backend/error/ScheduleError";
 import { CalendarSlot } from "./CalendarSlot";
 import { CalendarSlotTime } from "./CalendarSlotTime";
 
+
 const MAX_TOTAL = 6;
 const MAX_DRUMS = 2; 
 const MAX_PIANO_SINGING = 4;
@@ -13,17 +14,23 @@ export class CalendarBlock {
     private readonly slots: CalendarSlot[]
   ) {}
 
-  static create(time: CalendarSlotTime): CalendarBlock {
+    static createEmpty(day: string, hour: number): CalendarBlock {
+    const time = CalendarSlotTime.create(day, hour);
     return new CalendarBlock(time, []);
-  }
+   }
+  
 
   addSlot(slot: CalendarSlot): void {
+    this.validateSlot(slot);
+    this.slots.push(slot);
+  }
+
+
+  validateSlot(slot: CalendarSlot): void {
     this.ensureSameTime(slot);
     this.ensureCapacity();
     this.ensureProfessorAvailability(slot);
     this.ensureInstrumentQuota(slot);
-
-    this.slots.push(slot);
   }
 
   private ensureSameTime(slot: CalendarSlot): void {

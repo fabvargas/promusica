@@ -1,6 +1,7 @@
 import { NullOrUndefinedError } from "@/backend/error/NullOrUndefinedError";
 
 
+
 export type Primitives =  string | number  | boolean | Date;
 
 export abstract class ValueObject<T extends Primitives> {
@@ -9,6 +10,7 @@ export abstract class ValueObject<T extends Primitives> {
   constructor(value: T) {
     this.value = value;
     this.ensureValueIsDefined(value);
+    Object.freeze(this);
   }
 
   private ensureValueIsDefined(value: T): void {
@@ -23,5 +25,9 @@ export abstract class ValueObject<T extends Primitives> {
 
   toString(): string {
     return this.value.toString();
+  }
+
+  getValue(): T {
+    return this.value;
   }
 }

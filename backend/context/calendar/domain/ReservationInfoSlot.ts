@@ -1,5 +1,4 @@
 
-import { ProfessorId } from "../../professor/domain/ProfessorId";
 import { CalendarSlotInfo } from "./CalendarSlotInfo";
 
 export class ReservationInfoSlot extends CalendarSlotInfo {
@@ -12,9 +11,24 @@ export class ReservationInfoSlot extends CalendarSlotInfo {
     return "reservation" as const;
   }
 
-  getProfessorId(): ProfessorId | null {
-  return null;
+  toPrimitives() {
+  return {
+    type: "reservation" as const,
+    professorId: null,
+    studentId: null
+  };
 }
 
- 
+  static fromPrimitives(): ReservationInfoSlot {
+    return new ReservationInfoSlot();
+  }
+
+  getProfessorId(): null {
+    return null;
+  }
+
+  getStudentId(): null {
+    return null;
+  }
+
 }

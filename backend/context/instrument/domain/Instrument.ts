@@ -4,9 +4,19 @@ const validInstruments = ["Piano", "Guitarra", "Violin", "Bateria", "Viento","Ca
 type ValidInstruments = typeof validInstruments[number];
 
 export class Instrument extends EnumValueObject<ValidInstruments> {
+    
+     protected validValues(): readonly ValidInstruments[] {
+        return validInstruments;
+      }
+
     constructor(value: ValidInstruments) {
-        super(value, validInstruments);
+        super(value);
+    }  
+
+    static create(value: string): Instrument {
+    return new Instrument(value as ValidInstruments);
     }
+
 
     is(value: ValidInstruments): boolean {
         return this.value === value;
@@ -40,7 +50,7 @@ export class Instrument extends EnumValueObject<ValidInstruments> {
         return this.is("Bajo");
     }
 
-    getValue(): ValidInstruments {
-        return this.value;
+    static fromPrimitives(value: string): Instrument {
+        return new Instrument(value as ValidInstruments);
     }
 }

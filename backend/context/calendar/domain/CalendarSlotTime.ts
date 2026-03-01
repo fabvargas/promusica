@@ -11,22 +11,37 @@ export class CalendarSlotTime {
     this.ensureIsValid(day.value, hour.value);
   }
 
-  static create(day: ScheduleDay, hour: ScheduleHour): CalendarSlotTime {
-    return new CalendarSlotTime(day, hour);
+  static create(day: string, hour: number): CalendarSlotTime {
+    const dayObj = ScheduleDay.create(day);
+    const hourObj = ScheduleHour.create(hour);
+    return new CalendarSlotTime(dayObj, hourObj);
   }
 
-  private ensureIsValid(day:string, hour:string): void {
+  toPrimitives() {
+    return {
+      day: this.day.value,
+      hour: this.hour.value
+    };
+  }
+
+  static fromPrimitives(day: string, hour: number): CalendarSlotTime {
+    const dayObj = ScheduleDay.create(day);
+    const hourObj = ScheduleHour.create(hour);
+    return new CalendarSlotTime(dayObj, hourObj);
+  }
+
+  private ensureIsValid(day:string, hour:number): void {
     const dayValue = this.day.value;
     const hourNumber = this.hour.toNumber();
 
     const isWeekDay =
       dayValue === "lunes" ||
       dayValue === "martes" ||
-      dayValue === "miércoles" ||
+      dayValue === "miercoles" ||
       dayValue === "jueves" ||
       dayValue === "viernes";
 
-    const isSaturday = dayValue === "sábado";
+    const isSaturday = dayValue === "sabado";
 
     // Lunes a viernes: 16 a 20
     if (isWeekDay && (hourNumber < 16 || hourNumber > 20)) {

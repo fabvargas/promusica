@@ -10,17 +10,18 @@ export class Auth{
         private readonly role: AuthRole
     ){}
 
-    static createAdmin(email:AuthEmail): Auth {
+    static createAdmin(email:string): Auth {
         const id = AuthId.create();
-        
         const role = new AuthRole("admin");
-        return new Auth(id, email, role);
+        const emailObj = new AuthEmail(email);
+        return new Auth(id, emailObj, role);
     }
 
-    static createProfessor(email:AuthEmail): Auth {
+    static createProfessor(email:string): Auth {
         const id = AuthId.create();
         const role = new AuthRole("professor");
-        return new Auth(id, email, role);
+        const emailObj = new AuthEmail(email);
+        return new Auth(id, emailObj, role);
     }
 
 
@@ -42,6 +43,14 @@ export class Auth{
 
     isProfessor(): boolean {
         return this.role.is("professor");
+    }
+
+    toPrimitives() {
+        return {
+            id: this.id.getValue(),
+            email: this.email.getValue(),
+            role: this.role.getValue()
+        }
     }
    
 }

@@ -10,6 +10,12 @@ export class ClassInfoSlot extends CalendarSlotInfo {
     super();
   }
 
+  static create(professorId: string, studentId: StudentId): ClassInfoSlot {
+    return new ClassInfoSlot(
+      new ProfessorId(professorId), 
+      studentId);
+  }
+
   type() {
     return "class" as const;
   }
@@ -21,4 +27,24 @@ export class ClassInfoSlot extends CalendarSlotInfo {
   getStudentId(): StudentId {
     return this.studentId;
   }
-}
+
+  toPrimitives() {
+    return {
+      type: this.type(),
+      professorId: this.getProfessorId().getValue(),
+      studentId: this.getStudentId().getValue()
+    };
+  }
+
+    static fromPrimitives(
+      professorId: string ,
+       studentId: string 
+      ): ClassInfoSlot {
+      return new ClassInfoSlot(
+        new ProfessorId(professorId!),
+        new StudentId(studentId!)
+      );
+    }
+
+  }  
+

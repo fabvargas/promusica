@@ -8,6 +8,12 @@ export class RetakeInfoSlot extends CalendarSlotInfo {
     super();
   }
 
+  static create(professorId: string): RetakeInfoSlot {
+    return new RetakeInfoSlot(
+      new ProfessorId(professorId)
+    );
+  }
+
   type() {
     return "retake" as const;
   }
@@ -16,5 +22,24 @@ export class RetakeInfoSlot extends CalendarSlotInfo {
     return this.professorId;
   }
 
- 
+  toPrimitives() {
+  return {
+    type: "retake" as const,
+    professorId: this.professorId.getValue(),
+    studentId: null
+  };
+  }
+
+  static fromPrimitives(
+     professorId: string ,
+    ): RetakeInfoSlot {
+      return new RetakeInfoSlot(
+        new ProfessorId(professorId)
+      );
+    }
+
+  getStudentId(): null {
+    return null;
+  }
+  
 }

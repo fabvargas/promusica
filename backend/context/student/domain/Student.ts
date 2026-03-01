@@ -1,3 +1,4 @@
+import { UuidGenerator } from "@/backend/shared/infra/UuidGenerator";
 import { Instrument } from "../../instrument/domain/Instrument";
 import { StudentId } from "./StudentId";
 import { StudentName } from "./StudentName";
@@ -11,8 +12,14 @@ export class  Student {
       
     ){}
 
-    static create(id: StudentId, name: StudentName, instrument: Instrument): Student {
-        return new Student(id, name, instrument);
+    static create(name: string, instrument: string): Student {
+        const id = UuidGenerator.generate();
+        const instrumentObj =Instrument.create(instrument);
+        return new Student(
+            new StudentId(id),
+            new StudentName(name),
+            instrumentObj
+        );
     }
 
     getId(): StudentId {
@@ -29,5 +36,13 @@ export class  Student {
     
     plays(instrument: Instrument): boolean {
         return this.instrument.equals(instrument);
+    }
+
+    toPrimitives() {
+        return {
+            id: this.id.getValue(),
+            name: this.name.getValue(),
+            instrument: this.instrument.getValue()
+        }
     }
 }
