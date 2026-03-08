@@ -1,13 +1,10 @@
-import Button from "@/frontend/ui/Button";
-import {  registerProfessorAction } from "./action/registerProfessorAction";
+import LoginPage from "@/frontend/page/LoginPage";
 
 
 export default async function Home() {
  
 
   return (
-    <div>
-   <Button >Registrar Profesor</Button>
-    </div>
+   <LoginPage/>
   );
 }

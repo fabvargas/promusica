@@ -4,7 +4,7 @@
 import { TursoClient } from "@/database/TursoClient";
 import { ResponseType } from "./type";
 import { ValidateError } from "@/backend/error/ValidateError";
-import { RegisterCalendarClassSlot } from "@/backend/context/calendar/app/RegisterCalendarSlot";
+import { RegisterCalendarClassSlot } from "@/backend/context/calendar/app/RegisterCalendarClassSlot";
 import { TursoCalendarRepository } from "@/backend/context/calendar/infra/TursoCalendarRepository";
 import { TursoStudentRepository } from "@/backend/context/student/infra/TursoStudentRepository";
 
