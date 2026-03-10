@@ -1,3 +1,4 @@
+import CalendarButtonEvent from "./CalendarButtonEvent"
 
 type Day = "Lunes" | "Martes" | "Miércoles" | "Jueves" | "Viernes" | "Sábado"
 type Hour = 10 | 11 | 12 | 13 | 15 | 16 | 17 | 18 | 19 | 20 
@@ -11,6 +12,8 @@ const matrix = {
   Sábado:[10,11,12,13],
 
 }
+
+const data = [1,2,3,null,5,6]
 
 export default function Calendar() {
   return (
@@ -32,12 +35,12 @@ function CalendarBlock({ day, time }: { day: Day, time: Hour }) {
      <div className="h-8 p-2 font-bold" >
       <p>{time == null ? "" : `${time}:00`}</p>
     </div>
-    <div className="grid grid-cols-2 w-full gap-2 p-2 py-4 h-64">
+    <div className="grid grid-cols-2 w-full gap-2 p-2 py-4 h-66">
       {
         time == null ? <div></div>:
-        Array.from({length: 6}).map((_, i) => (
-          <CalendarSlot key={i} day={day} time={time} />
-        ))
+        data.map((s, i) =>{
+            return s == null ? <CalendarButtonEvent key={i} /> : <CalendarSlot key={i} day={day} time={time} />
+        })
       }
     </div>
     </div>
@@ -47,7 +50,7 @@ function CalendarBlock({ day, time }: { day: Day, time: Hour }) {
 
 function CalendarColumn({ day }: { day: Day }) {
   return (
-    <div className="flex flex-col bg-white rounded-2xl shadow overflow-hidden">
+    <div className="flex flex-col bg-white  shadow ">
       <div className="h-16 p-2 font-bold bg-card flex items-center justify-center">
         <p>{day}</p>
       </div>
