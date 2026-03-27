@@ -51,4 +51,13 @@ export class Professor {
         }
     }
 
+    static fromPrimitives(data: { id: string, authId: string, name: string, instrument: string }): Professor {
+        return new Professor(
+            new ProfessorId(data.id),
+            new AuthId(data.authId),
+            new ProfessorName(data.name),
+            Instrument.create(data.instrument)
+        );
+    }
+
 }   

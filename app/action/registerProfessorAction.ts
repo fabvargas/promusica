@@ -4,17 +4,19 @@ import { TursoAuthRepository } from "@/backend/context/auth/infra/TursoAuthRepos
 import { RegisterProfessor } from "@/backend/context/professor/app/RegisterProfessor";
 import { TursoProfessorRepository } from "@/backend/context/professor/infra/TursoProfessorRepository";
 import { TursoClient } from "@/database/TursoClient";
-import { ResponseType } from "./type";
 import { ValidateError } from "@/backend/error/ValidateError";
 
-export async function registerProfessorAction():Promise<ResponseType<void>> {
+export async function registerProfessorAction(
+  prevState: any,
+  formData: FormData
+) {
     try{
-    // const email = formData.get("email") as string;
-    // const name = formData.get("name") as string;
-    // const specialties = formData.getAll("specialties") as string[];
-    const email = "example@example.com";
-    const name = "John Doe";
-    const instrument = "Guitarra";
+    const email = formData.get("email") as string;
+    const name = formData.get("name") as string;
+    const lastname = formData.get("lastname") as string;
+    const instrument = formData.get("instrument") as string;
+
+    const fullName = `${name} ${lastname}`;
 
     const db = TursoClient.getInstance();
 
@@ -26,12 +28,13 @@ export async function registerProfessorAction():Promise<ResponseType<void>> {
 
     await useCase.execute({
       email,
-      name,
-      instrument,
+      name: fullName,
+      instrument
     });
 
-    return { success: true };
+    return { success: true , message: "Profesor Registrado"};
     } catch (error) {
+      console.log(error)
         if (error instanceof ValidateError) {
             return {
                 success: false,

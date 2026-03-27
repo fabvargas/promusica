@@ -4,3 +4,9 @@ export interface ResponseType<T>{
     data?: T;
     error?:Error
 }
+
+export type Professor = {
+    id: string;
+    name: string;
+    instrument: string;
+}

@@ -1,6 +1,7 @@
 import { QueryRunner } from "@/backend/shared/app/DatabaseInterface";
 import { ProfessorRepository } from "../domain/ProfessorRepository";
 import { Professor } from "../domain/Professor";
+import { Instrument } from "../../instrument/domain/Instrument";
 
 export class TursoProfessorRepository implements ProfessorRepository {
 
@@ -20,5 +21,20 @@ export class TursoProfessorRepository implements ProfessorRepository {
       ]
     );
 }
+
+  async findAll(db: QueryRunner): Promise<Professor[]> {
+    const result = await db.execute(
+      `
+      SELECT * FROM professor
+      `
+    );
+
+    return result.rows.map((row: any) => Professor.fromPrimitives({
+      id: row.id,
+      authId: row.auth_id,
+      name: row.name,
+      instrument: row.instrument
+    }));
+  }
 
 }

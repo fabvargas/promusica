@@ -1,20 +1,28 @@
-
 "use server";
 
 import { TursoClient } from "@/database/TursoClient";
-import { ResponseType } from "./type";
 import { ValidateError } from "@/backend/error/ValidateError";
 import { RegisterCalendarClassSlot } from "@/backend/context/calendar/app/RegisterCalendarClassSlot";
 import { TursoCalendarRepository } from "@/backend/context/calendar/infra/TursoCalendarRepository";
 import { TursoStudentRepository } from "@/backend/context/student/infra/TursoStudentRepository";
 
-export async function registerClassAction():Promise<ResponseType<void>> {
-    try{
-    const day = "lunes";
-    const hour = 16;
-    const instrument = "Guitarra";
-    const professorId = "019ca1e7-6148-729a-a82a-6a1a4c16ca33";
-    const studentName = "John Doe";
+type State = {
+  success: boolean
+  message?: string
+}
+
+export async function registerClassAction(
+  prevState: State,
+  formData: FormData
+): Promise<State> {
+
+  try {
+
+    const day = formData.get("day") as string;
+    const hour = Number(formData.get("hour"));
+    const instrument = formData.get("instrument") as string;
+    const professorId = formData.get("professorId") as string;
+    const studentName = formData.get("studentName") as string;
 
     const db = TursoClient.getInstance();
 
@@ -32,17 +40,23 @@ export async function registerClassAction():Promise<ResponseType<void>> {
       studentName
     });
 
-    return { success: true };
-    } catch (error) {
-        if (error instanceof ValidateError) {
-            return {
-                success: false,
-                message: error.message
-            };
-        }
+    return {
+      success: true,
+      message: "Clase registrada correctamente"
+    };
+
+  } catch (error) {
+
+    if (error instanceof ValidateError) {
       return {
         success: false,
-        message: error instanceof Error ? error.message : "Unexpected error"
+        message: error.message
       };
     }
+
+    return {
+      success: false,
+      message: error instanceof Error ? error.message : "Unexpected error"
+    };
+  }
 }

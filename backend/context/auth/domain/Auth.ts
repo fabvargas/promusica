@@ -52,5 +52,14 @@ export class Auth{
             role: this.role.getValue()
         }
     }
+
+    static fromPrimitives(primitives: {id: string, email: string, role: string}): Auth {
+        const authRole =  AuthRole.fromString(primitives.role);
+        return new Auth(
+            new AuthId(primitives.id),
+            new AuthEmail(primitives.email),
+            authRole
+        );
+    }
    
 }
